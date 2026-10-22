@@ -88,13 +88,16 @@
                     <a  href="dashboard.html"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="active" href="Kategori.html"><i class="fas fa-box me-2"></i> Kategori</a>
+                    <a  href="Kategori.html"><i class="fas fa-box me-2"></i> Kategori</a>
                 </li>
                 <li class="nav-item">
                     <a href="kegiatan.html"><i class="fas fa-box me-2"></i> Kegiatan</a>
                 </li>
                 <li class="nav-item">
                     <a href="Laporan.html"><i class="fas fa-users me-2"></i> Laporan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="active" href="anggota.html"><i class="fas fa-users me-2"></i> Anggota</a>
                 </li>
                 <li class="nav-item">
                     <a href="about.htmL"><i class="fas fa-store me-2"></i> About</a>
@@ -146,11 +149,11 @@
 
   <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
     <div>
-      <h1 class="h4 fw-bold mb-0">Kategori Kegiatan</h1>
-      <small class="text-muted">Kelola kategori untuk agenda kegiatan organisasi mahasiswa</small>
+      <h1 class="h4 fw-bold mb-0">Anggota</h1>
+      <small class="text-muted"></small>
     </div>
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalKategori">
-    <i class="bi bi-plus-lg me-1"></i>Tambah kategori
+    <i class="bi bi-plus-lg me-1"></i>Tambah Anggota
     </button>
   </div>
 
@@ -160,19 +163,21 @@
         <table class="table table-hover align-middle mb-0">
           <thead class="table-light">
             <tr>
-              <th style="width:60px">No</th>
-              <th>Nama kategori</th>
-              <th>Deskripsi</th>
-              <th class="text-center">Jumlah kegiatan</th>
+                 <th style="width:60px">No</th>
+              <th >  Nama</th>
+              <th>Jabatan</th>
+              <th>Telepon</th>
+              
               <th class="text-end" style="width:120px">Aksi</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>1</td>
-              <td class="fw-semibold">Akademik</td>
-              <td>Seminar, workshop, dan lomba ilmiah</td>
-              <td class="text-center"><span class="badge text-bg-primary">0</span></td>
+                 <td>1</td>
+              <td class="fw-semibold">Udindun</td>
+              <td >Ketua</td>
+              <td>0812345678</td>
+              
               <td class="text-end">
                 <button class="btn btn-sm btn-outline-secondary" aria-label="Ubah"><i class="bi bi-pencil"></i></button>
                 <button class="btn btn-sm btn-outline-danger" aria-label="Hapus"><i class="bi bi-trash"></i></button>
@@ -180,9 +185,10 @@
             </tr>
             <tr>
               <td>2</td>
-              <td class="fw-semibold">Seni &amp; budaya</td>
-              <td>Pentas seni, pameran, dan festival budaya</td>
-              <td class="text-center"><span class="badge text-bg-primary">0</span></td>
+              <td class="fw-semibold">Ratna Sarumpat</td>
+              <td>Wakil Ketua</td>
+                <td>0812345678</td>
+              
               <td class="text-end">
                 <button class="btn btn-sm btn-outline-secondary" aria-label="Ubah"><i class="bi bi-pencil"></i></button>
                 <button class="btn btn-sm btn-outline-danger" aria-label="Hapus"><i class="bi bi-trash"></i></button>
@@ -190,9 +196,10 @@
             </tr>
             <tr>
               <td>3</td>
-              <td class="fw-semibold">Olahraga</td>
-              <td>Turnamen dan kegiatan kebugaran</td>
-              <td class="text-center"><span class="badge text-bg-primary">0</span></td>
+              <td class="fw-semibold">idindun</td>
+              <td>Bendahara</td>
+               <td>0812345678</td>
+              
               <td class="text-end">
                 <button class="btn btn-sm btn-outline-secondary" aria-label="Ubah"><i class="bi bi-pencil"></i></button>
                 <button class="btn btn-sm btn-outline-danger" aria-label="Hapus"><i class="bi bi-trash"></i></button>
@@ -200,9 +207,10 @@
             </tr>
             <tr>
               <td>4</td>
-              <td class="fw-semibold">Sosial</td>
-              <td>Bakti sosial dan pengabdian masyarakat</td>
-              <td class="text-center"><span class="badge text-bg-primary">0</span></td>
+              <td class="fw-semibold">Martunis</td>
+              <td>Sekretaris</td>
+              <td>0812345678</td>
+              
               <td class="text-end">
                 <button class="btn btn-sm btn-outline-secondary" aria-label="Ubah"><i class="bi bi-pencil"></i></button>
                 <button class="btn btn-sm btn-outline-danger" aria-label="Hapus"><i class="bi bi-trash"></i></button>
@@ -228,13 +236,18 @@
       </div>
       <div class="modal-body">
         <div class="mb-3">
-          <label for="namaKategori" class="form-label">Nama kategori</label>
-          <input type="text" class="form-control" id="namaKategori" placeholder="Contoh: Keagamaan">
+          <label for="namaKategori" class="form-label">Nama Anggota</label>
+          <input type="text" class="form-control" id="namaKategori" placeholder="">
         </div>
-        <div>
-          <label for="deskripsiKategori" class="form-label">Deskripsi</label>
-          <textarea class="form-control" id="deskripsiKategori" rows="3"></textarea>
+         <div class="mb-3">
+          <label for="namaKategori" class="form-label">Jabatan</label>
+          <input type="text" class="form-control" id="namaKategori" placeholder=" Ketua">
         </div>
+          <div class="mb-3">
+          <label for="namaKategori" class="form-label">Telepone</label>
+          <input type="text" class="form-control" id="namaKategori" placeholder="">
+        </div>
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
