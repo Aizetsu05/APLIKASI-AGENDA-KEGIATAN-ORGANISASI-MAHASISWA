@@ -50,18 +50,18 @@
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold text-black d-flex align-items-center gap-2" href="#">
-                <div style="width:55px; height:55px; border-radius:50%; overflow:hidden;">
-                    <img src="WhatsApp Image 2026-10-20 at 18.41.41.jpeg" 
-                         style="width:100%; height:100%; object-fit:cover; transform:scale(1.1);" 
-                         alt="Logo Aizetsu">
-                </div>
-                <strong>Agenda Kegiatan Organisasi Mahasiswa</strong>
-            </a>
+       
+
+            <a class="navbar-brand fw-bold text-black d-flex align-items-center gap-2 "  <div class="container-fluid">
+                  <div style="width:55px; height:55px; border-radius:50%; overflow:hidden;">
+        <img src="WhatsApp Image 2026-10-20 at 18.41.41.jpeg"
+             style="width:100%; height:100%; object-fit:cover; transform:scale(1.1);"
+             alt="Logo Aizetsu">
+      </div><strong> Agenda Kegiatan Organisasi Mahasiswa</strong></a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
+                
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
@@ -157,9 +157,9 @@
                             <thead class="table-light">
                                 <tr>
                                     <th>No</th>
-                                    <th>Telephone</th>
                                     <th>Nama Mahasiswa</th>
                                     <th>Jabatan</th>
+                                    <th>Telepon</th>
                                     <th>Status Kehadiran</th>
                                     <th class="text-center">Aksi / Ubah Kehadiran</th>
                                 </tr>
@@ -167,9 +167,9 @@
                             <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td>0812345678</td>
                                     <td>Ahmad Fauzi</td>
-                                    <td>Anggota Utama</td>
+                                    <td>Wakil ketua</td>
+                                    <td>081234567821</td>
                                     <td><span class="badge bg-success">Hadir</span></td>
                                     <td class="text-center">
                                         <div class="btn-group btn-group-sm">
@@ -183,9 +183,9 @@
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td>0812345678</td>
                                     <td>Martunis</td>
                                     <td>Sekretaris</td>
+                                    <td>08123456789</td>
                                     <td><span class="badge bg-warning text-dark">Belum</span></td>
                                     <td class="text-center">
                                         <div class="btn-group btn-group-sm">
@@ -218,10 +218,6 @@
       </div>
 
       <div class="modal-body">
-        <div class="mb-3">
-          <label for="telephonePeserta" class="form-label">Telephone</label>
-          <input type="text" class="form-control" id="telephonePeserta" placeholder="Masukkan nomor telephone">
-        </div>
 
         <div class="mb-3">
           <label for="namaPeserta" class="form-label">Nama Mahasiswa</label>
@@ -231,6 +227,11 @@
         <div class="mb-3">
           <label for="jabatanPeserta" class="form-label">Jabatan</label>
           <input type="text" class="form-control" id="jabatanPeserta" placeholder="Masukkan jabatan">
+        </div>
+
+        <div class="mb-3">
+          <label for="teleponePeserta" class="form-label">Telepone</label>
+          <input type="text" class="form-control" id="telephonePeserta" placeholder="Masukkan nomor telephone">
         </div>
 
         <div>
