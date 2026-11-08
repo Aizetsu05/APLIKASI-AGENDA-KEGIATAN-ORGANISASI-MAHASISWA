@@ -140,7 +140,11 @@
                             <option value="Tidak Hadir">Tidak Hadir</option>
                             <option value="Belum">Belum</option>
                         </select>
-                    </div>
+                     <button class="btn btn-primary text-nowrap"
+                     data-bs-toggle="modal" data-bs-target="#modalTambahPeserta">
+                     <i class="fas fa-plus me-1"></i> Tambah Peserta
+                    </button>
+                </div>
                 </div>
 
                 <div class="card-body p-0">
@@ -197,5 +201,55 @@
 
         </div>
     </div>
+
+    
+<!-- MODAL TAMBAH PESERTA -->
+<div class="modal fade" id="modalTambahPeserta" tabindex="-1" aria-labelledby="judulModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="judulModal">Tambah Peserta</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="telephonePeserta" class="form-label">Telephone</label>
+          <input type="text" class="form-control" id="telephonePeserta" placeholder="Masukkan nomor telephone">
+        </div>
+
+        <div class="mb-3">
+          <label for="namaPeserta" class="form-label">Nama Mahasiswa</label>
+          <input type="text" class="form-control" id="namaPeserta" placeholder="Masukkan nama mahasiswa">
+        </div>
+
+        <div class="mb-3">
+          <label for="jabatanPeserta" class="form-label">Jabatan</label>
+          <input type="text" class="form-control" id="jabatanPeserta" placeholder="Masukkan jabatan">
+        </div>
+
+        <div>
+          <label for="statusKehadiran" class="form-label">Status Kehadiran</label>
+          <select class="form-select" id="statusKehadiran">
+            <option value="">-- Pilih Status --</option>
+            <option value="Hadir">Hadir</option>
+            <option value="Tidak Hadir">Tidak Hadir</option>
+            <option value="Belum">Belum</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary">Simpan Peserta</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
 
    
