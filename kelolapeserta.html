@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     
     <style>
         body {
@@ -137,8 +138,8 @@
                     
                     
                     <div class="d-flex gap-2">
-                        <input type="text" class="form-control" placeholder="Cari nama">
-                        <select class="form-select" style="width: 170px;">
+                        <input type="text" id="cariPeserta" class="form-control" placeholder="Cari nama">
+                        <select class="form-select" id="filterStatus" style="width: 170px;">
                             <option value="">Semua Status</option>
                             <option value="Hadir">Hadir</option>
                             <option value="Tidak Hadir">Tidak Hadir</option>
@@ -164,7 +165,7 @@
                                     <th class="text-center">Aksi / Ubah Kehadiran</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tabelPeserta">
                                 <tr>
                                     <td>1</td>
                                     <td>Ahmad Fauzi</td>
@@ -211,6 +212,7 @@
 <div class="modal fade" id="modalTambahPeserta" tabindex="-1" aria-labelledby="judulModal" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
+         <form id="formPeserta">
 
       <div class="modal-header">
         <h2 class="modal-title h5" id="judulModal">Tambah Peserta</h2>
@@ -240,20 +242,214 @@
             <option value="">-- Pilih Status --</option>
             <option value="Hadir">Hadir</option>
             <option value="Tidak Hadir">Tidak Hadir</option>
-            <option value="Belum">Belum</option>
+            <option value="Belum">Belm</option>
           </select>
         </div>
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary">Simpan Peserta</button>
-      </div>
+            <button type="button" class="btn btn-outline-secondary"
+                data-bs-dismiss="modal">Batal</button>
+
+            <button type="submit" class="btn btn-primary">
+                Simpan Peserta
+            </button>
+        </form>
+        </div>
 
     </div>
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+// Data peserta sementara
+let dataPeserta = [
+    {
+        id: 1,
+        nama: 'Ahmad Fauzi',
+        jabatan: 'Wakil Ketua',
+        telepon: '081234567821',
+        kehadiran: 'Hadir'
+    },
+    {
+        id: 2,
+        nama: 'Martunis',
+        jabatan: 'Sekretaris',
+        telepon: '08123456789',
+        kehadiran: 'Belum'
+    }
+];
+
+const $ = id => document.getElementById(id);
+
+const form = $('formPeserta');
+const modal = new bootstrap.Modal($('modalTambahPeserta'));
+
+const warna = {
+    Hadir: 'success',
+    'Tidak Hadir': 'danger',
+    Belum: 'warning'
+};
+
+let editId = null;
+
+// Menampilkan data peserta
+function render() {
+    const cari = $('cariPeserta').value.toLowerCase();
+    const filter = $('filterStatus').value;
+
+    const hasil = dataPeserta.filter(p =>
+        p.nama.toLowerCase().includes(cari) &&
+        (!filter || p.kehadiran === filter)
+    );
+
+    $('tabelPeserta').innerHTML = hasil.map((p, i) => `
+        <tr>
+            <td>${i + 1}</td>
+            <td>${p.nama}</td>
+            <td>${p.jabatan}</td>
+            <td>${p.telepon}</td>
+            <td>
+                <span class="badge bg-${warna[p.kehadiran]} ${p.kehadiran === 'Belum' ? 'text-dark' : ''}">
+                    ${p.kehadiran}
+                </span>
+            </td>
+            <td class="text-center">
+                <div class="btn-group btn-group-sm">
+
+                    <button class="btn btn-outline-success"
+                        onclick="ubahStatus(${p.id}, 'Hadir')">
+                        Hadir
+                    </button>
+
+                    <button class="btn btn-outline-danger"
+                        onclick="ubahStatus(${p.id}, 'Tidak Hadir')">
+                        Tidak Hadir
+                    </button>
+
+                    <button class="btn btn-outline-warning"
+                        onclick="ubahStatus(${p.id}, 'Belum')">
+                        Belum
+                    </button>
+
+                    <td class="text-end">
+                    <button class="btn btn-sm btn-outline-secondary"
+                    onclick="editPeserta(${p.id})"
+                    aria-label="Ubah">
+                    <i class="bi bi-pencil"></i>
+                    </button>
+
+                      <button class="btn btn-sm btn-outline-danger"
+                    onclick="hapusPeserta(${p.id})"
+                    aria-label="Hapus">
+                    <i class="bi bi-trash"></i>
+                    </button>
+                    </td>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+
+    if (hasil.length === 0) {
+        $('tabelPeserta').innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    Data peserta tidak ditemukan
+                </td>
+            </tr>
+        `;
+    }
+}
+
+// Membuka form tambah atau edit
+function bukaForm(id = null) {
+    form.reset();
+    editId = id;
+
+    if (id !== null) {
+        const p = dataPeserta.find(x => x.id === id);
+
+        if (!p) return;
+
+        $('namaPeserta').value = p.nama;
+        $('jabatanPeserta').value = p.jabatan;
+        $('telephonePeserta').value = p.telepon;
+        $('statusKehadiran').value = p.kehadiran;
+
+        $('judulModal').textContent = 'Edit Peserta';
+    } else {
+        $('judulModal').textContent = 'Tambah Peserta';
+    }
+
+    modal.show();
+}
+
+// Menyimpan data peserta
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const peserta = {
+        id: editId !== null ? editId : Date.now(),
+        nama: $('namaPeserta').value.trim(),
+        jabatan: $('jabatanPeserta').value.trim(),
+        telepon: $('telephonePeserta').value.trim(),
+        kehadiran: $('statusKehadiran').value
+    };
+
+    if (!peserta.nama || !peserta.jabatan ||
+        !peserta.telepon || !peserta.kehadiran) {
+        alert('Semua data harus diisi!');
+        return;
+    }
+
+    if (editId !== null) {
+        const index = dataPeserta.findIndex(p => p.id === editId);
+
+        if (index !== -1) {
+            dataPeserta[index] = peserta;
+        }
+    } else {
+        dataPeserta.push(peserta);
+    }
+
+    render();
+    modal.hide();
+});
+
+// Edit peserta
+function editPeserta(id) {
+    bukaForm(id);
+}
+
+// Mengubah status kehadiran
+function ubahStatus(id, status) {
+    const peserta = dataPeserta.find(p => p.id === id);
+
+    if (peserta) {
+        peserta.kehadiran = status;
+        render();
+    }
+}
+
+// Menghapus peserta
+function hapusPeserta(id) {
+    if (confirm('Apakah kamu yakin ingin menghapus peserta ini?')) {
+        dataPeserta = dataPeserta.filter(p => p.id !== id);
+        render();
+    }
+}
+
+// Pencarian peserta
+$('cariPeserta').addEventListener('input', render);
+
+// Filter status kehadiran
+$('filterStatus').addEventListener('change', render);
+
+// Menampilkan data pertama kali
+render();
+
+</script>
 </body>
 </html>
 
