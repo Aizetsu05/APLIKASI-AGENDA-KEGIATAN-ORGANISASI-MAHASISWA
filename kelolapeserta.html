@@ -124,7 +124,7 @@
             <div class="card shadow-sm mb-4">
                 <div class="card-body">
                     <label class="form-label fw-bold">Pilih Kegiatan Agenda:</label>
-                    <select class="form-select form-select-lg">
+                    <select class="form-select form-select-lg" id="pilihKegiatan">
                         <option value="">-- Pilih Kegiatan --</option>
                         <option value="1" selected>Workshop Web Development (25 Okt 2026)</option>
                         <option value="2">Rapat (01 Nov 2026)</option>
@@ -265,8 +265,30 @@
 
 
 let dataPeserta = [
-    { id: 1, nama: 'Ahmad Fauzi', jabatan: 'Wakil Ketua', telepon: '081234567821', kehadiran: 'Hadir' },
-    { id: 2, nama: 'Martunis', jabatan: 'Sekretaris', telepon: '08123456789', kehadiran: 'Belum' }
+    {
+        id: 1,
+        kegiatanId: 1,
+        nama: 'Ahmad Fauzi',
+        jabatan: 'Wakil Ketua',
+        telepon: '081234567821',
+        kehadiran: 'Hadir'
+    },
+    {
+        id: 2,
+        kegiatanId: 1,
+        nama: 'Martunis',
+        jabatan: 'Sekretaris',
+        telepon: '08123456789',
+        kehadiran: 'Belum'
+    },
+    {
+        id: 3,
+        kegiatanId: 2,
+        nama: 'Ratna Sarumpat',
+        jabatan: 'Bendahara',
+        telepon: '08123456789',
+        kehadiran: 'Belum'
+    }
 ];
 
 const $ = id => document.getElementById(id);
@@ -284,10 +306,12 @@ const warna = {
 function render() {
     const cari = $('cariPeserta').value.toLowerCase();
     const filter = $('filterStatus').value;
+    const kegiatan = $('pilihKegiatan').value;
 
     const hasil = dataPeserta.filter(p =>
         p.nama.toLowerCase().includes(cari) &&
-        (!filter || p.kehadiran === filter)
+        (!filter || p.kehadiran === filter) &&
+        (!kegiatan || p.kegiatanId == kegiatan)
     );
 
     $('tabelPeserta').innerHTML = hasil.map((p, i) => `
@@ -358,6 +382,9 @@ form.addEventListener('submit', e => {
 
     const peserta = {
         id: editId ?? Date.now(),
+         kegiatanId: editId !== null
+        ? dataPeserta.find(p => p.id === editId).kegiatanId
+        : Number($('pilihKegiatan').value),
         nama: $('namaPeserta').value.trim(),
         jabatan: $('jabatanPeserta').value.trim(),
         telepon: $('telephonePeserta').value.trim(),
@@ -365,7 +392,7 @@ form.addEventListener('submit', e => {
     };
 
     if (!peserta.nama || !peserta.jabatan ||
-        !peserta.telepon || !peserta.kehadiran) {
+        !peserta.telepon || !peserta.kehadiran|| !peserta.kegiatanId) {
         alert('Semua data harus diisi!');
         return;
     }
@@ -402,6 +429,7 @@ function hapusPeserta(id) {
 // Pencarian dan filter
 $('cariPeserta').addEventListener('input', render);
 $('filterStatus').addEventListener('change', render);
+$('pilihKegiatan').addEventListener('change', render);
 
 // Menampilkan data awal
 render();
