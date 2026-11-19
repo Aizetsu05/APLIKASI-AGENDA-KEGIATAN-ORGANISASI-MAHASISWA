@@ -263,36 +263,22 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 
-// Data peserta sementara
+
 let dataPeserta = [
-    {
-        id: 1,
-        nama: 'Ahmad Fauzi',
-        jabatan: 'Wakil Ketua',
-        telepon: '081234567821',
-        kehadiran: 'Hadir'
-    },
-    {
-        id: 2,
-        nama: 'Martunis',
-        jabatan: 'Sekretaris',
-        telepon: '08123456789',
-        kehadiran: 'Belum'
-    }
+    { id: 1, nama: 'Ahmad Fauzi', jabatan: 'Wakil Ketua', telepon: '081234567821', kehadiran: 'Hadir' },
+    { id: 2, nama: 'Martunis', jabatan: 'Sekretaris', telepon: '08123456789', kehadiran: 'Belum' }
 ];
 
 const $ = id => document.getElementById(id);
-
 const form = $('formPeserta');
 const modal = new bootstrap.Modal($('modalTambahPeserta'));
+let editId = null;
 
 const warna = {
     Hadir: 'success',
     'Tidak Hadir': 'danger',
     Belum: 'warning'
 };
-
-let editId = null;
 
 // Menampilkan data peserta
 function render() {
@@ -311,55 +297,38 @@ function render() {
             <td>${p.jabatan}</td>
             <td>${p.telepon}</td>
             <td>
-                <span class="badge bg-${warna[p.kehadiran]} ${p.kehadiran === 'Belum' ? 'text-dark' : ''}">
+                <span class="badge bg-${warna[p.kehadiran]}">
                     ${p.kehadiran}
                 </span>
             </td>
             <td class="text-center">
-                <div class="btn-group btn-group-sm">
+                <button class="btn btn-sm btn-outline-success"
+                    onclick="ubahStatus(${p.id}, 'Hadir')">Hadir</button>
 
-                    <button class="btn btn-outline-success"
-                        onclick="ubahStatus(${p.id}, 'Hadir')">
-                        Hadir
-                    </button>
+                <button class="btn btn-sm btn-outline-danger"
+                    onclick="ubahStatus(${p.id}, 'Tidak Hadir')">Tidak Hadir</button>
 
-                    <button class="btn btn-outline-danger"
-                        onclick="ubahStatus(${p.id}, 'Tidak Hadir')">
-                        Tidak Hadir
-                    </button>
+                <button class="btn btn-sm btn-outline-secondary"
+                    onclick="ubahStatus(${p.id}, 'Belum')">Belum</button>
 
-                    <button class="btn btn-outline-warning"
-                        onclick="ubahStatus(${p.id}, 'Belum')">
-                        Belum
-                    </button>
-
-                    <td class="text-end">
-                    <button class="btn btn-sm btn-outline-secondary"
-                    onclick="editPeserta(${p.id})"
-                    aria-label="Ubah">
+                <button class="btn btn-sm btn-outline-primary"
+                    onclick="bukaForm(${p.id})">
                     <i class="bi bi-pencil"></i>
-                    </button>
+                </button>
 
-                      <button class="btn btn-sm btn-outline-danger"
-                    onclick="hapusPeserta(${p.id})"
-                    aria-label="Hapus">
+                <button class="btn btn-sm btn-outline-danger"
+                    onclick="hapusPeserta(${p.id})">
                     <i class="bi bi-trash"></i>
-                    </button>
-                    </td>
-                </div>
+                </button>
             </td>
         </tr>
-    `).join('');
-
-    if (hasil.length === 0) {
-        $('tabelPeserta').innerHTML = `
-            <tr>
-                <td colspan="6" class="text-center text-muted">
-                    Data peserta tidak ditemukan
-                </td>
-            </tr>
-        `;
-    }
+    `).join('') || `
+        <tr>
+            <td colspan="6" class="text-center text-muted">
+                Data peserta tidak ditemukan
+            </td>
+        </tr>
+    `;
 }
 
 // Membuka form tambah atau edit
@@ -368,9 +337,7 @@ function bukaForm(id = null) {
     editId = id;
 
     if (id !== null) {
-        const p = dataPeserta.find(x => x.id === id);
-
-        if (!p) return;
+        const p = dataPeserta.find(p => p.id === id);
 
         $('namaPeserta').value = p.nama;
         $('jabatanPeserta').value = p.jabatan;
@@ -385,12 +352,12 @@ function bukaForm(id = null) {
     modal.show();
 }
 
-// Menyimpan data peserta
-form.addEventListener('submit', function(e) {
+// Menyimpan peserta
+form.addEventListener('submit', e => {
     e.preventDefault();
 
     const peserta = {
-        id: editId !== null ? editId : Date.now(),
+        id: editId ?? Date.now(),
         nama: $('namaPeserta').value.trim(),
         jabatan: $('jabatanPeserta').value.trim(),
         telepon: $('telephonePeserta').value.trim(),
@@ -404,50 +371,41 @@ form.addEventListener('submit', function(e) {
     }
 
     if (editId !== null) {
-        const index = dataPeserta.findIndex(p => p.id === editId);
-
-        if (index !== -1) {
-            dataPeserta[index] = peserta;
-        }
+        const i = dataPeserta.findIndex(p => p.id === editId);
+        dataPeserta[i] = peserta;
     } else {
         dataPeserta.push(peserta);
     }
 
-    render();
     modal.hide();
+    render();
 });
-
-// Edit peserta
-function editPeserta(id) {
-    bukaForm(id);
-}
 
 // Mengubah status kehadiran
 function ubahStatus(id, status) {
-    const peserta = dataPeserta.find(p => p.id === id);
+    const p = dataPeserta.find(p => p.id === id);
 
-    if (peserta) {
-        peserta.kehadiran = status;
+    if (p) {
+        p.kehadiran = status;
         render();
     }
 }
 
 // Menghapus peserta
 function hapusPeserta(id) {
-    if (confirm('Apakah kamu yakin ingin menghapus peserta ini?')) {
+    if (confirm('Apakah yakin ingin menghapus peserta ini?')) {
         dataPeserta = dataPeserta.filter(p => p.id !== id);
         render();
     }
 }
 
-// Pencarian peserta
+// Pencarian dan filter
 $('cariPeserta').addEventListener('input', render);
-
-// Filter status kehadiran
 $('filterStatus').addEventListener('change', render);
 
-// Menampilkan data pertama kali
+// Menampilkan data awal
 render();
+
 
 </script>
 </body>
