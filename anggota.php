@@ -160,11 +160,14 @@
 <main class="container py-4">
 
   <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-    <div>
-      <h1 class="h4 fw-bold mb-0">Anggota</h1>
-      <small class="text-muted"></small>
+    <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-people-fill fs-3"></i>
+        <div>
+            <h1 class="h4 fw-bold mb-0">Anggota</h1>
+            <small class="text-muted">Data Anggota Organisasi</small>
+        </div>
     </div>
-    <button class="btn btn-primary" id="btnTambah"> 
+    <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#tambahDataModal">
     <i class="bi bi-plus-lg me-1"></i>Tambah Anggota
     </button>
   </div>
@@ -174,223 +177,71 @@
       <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">
           <thead class="table-light">
-            <tr>
-                 <th style="width:60px">No</th>
-              <th >  Nama</th>
-              <th>Jabatan</th>
-              <th>Telepon</th>
-              
-              <th class="text-end" style="width:120px">Aksi</th>
-            </tr>
-          </thead>
-          <tbody id="tabelAnggota">
-            <tr>
-                 <td>1</td>
-              <td class="fw-semibold">Udindun</td>
-              <td >Ketua</td>
-              <td>0812345678</td>
-              
-              <td class="text-end">
-                <button class="btn btn-sm btn-outline-secondary" aria-label="Ubah"><i class="bi bi-pencil"></i></button>
-                <button class="btn btn-sm btn-outline-danger" aria-label="Hapus"><i class="bi bi-trash"></i></button>
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td class="fw-semibold">Ratna Sarumpat</td>
-              <td>Wakil Ketua</td>
-                <td>0812345678</td>
-              
-              <td class="text-end">
-                <button class="btn btn-sm btn-outline-secondary" aria-label="Ubah"><i class="bi bi-pencil"></i></button>
-                <button class="btn btn-sm btn-outline-danger" aria-label="Hapus"><i class="bi bi-trash"></i></button>
-              </td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td class="fw-semibold">idindun</td>
-              <td>Bendahara</td>
-               <td>0812345678</td>
-              
-              <td class="text-end">
-                <button class="btn btn-sm btn-outline-secondary" aria-label="Ubah"><i class="bi bi-pencil"></i></button>
-                <button class="btn btn-sm btn-outline-danger" aria-label="Hapus"><i class="bi bi-trash"></i></button>
-              </td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td class="fw-semibold">Martunis</td>
-              <td>Sekretaris</td>
-              <td>0812345678</td>
-              
-              <td class="text-end">
-                <button class="btn btn-sm btn-outline-secondary" aria-label="Ubah"><i class="bi bi-pencil"></i></button>
-                <button class="btn btn-sm btn-outline-danger" aria-label="Hapus"><i class="bi bi-trash"></i></button>
-              </td>
-            </tr>
-            <tr>
-              
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</main>
+           <tr>
+<th scope="col">NO</th>
+<th scope="col">NIM</th>
+<th scope="col">NAMA</th>
+<th scope="col">JABATAN</th>
+<th scope="col">AKSI</th>
+</tr>
+</thead>
+<tbody>
+<?php
+include 'koneksi.php';
+$query = mysqli_query($koneksi, "SELECT * FROM anggota");
+$no = 1;
+while ($data = mysqli_fetch_assoc($query)) {
+?>
+<tr>
+<td><?php echo $no++; ?></td>
+<td><?php echo $data['nim']; ?></td>
+<td><?php echo $data['nama']; ?></td>
+<td><?php echo $data['jabatan']; ?></td>
+<td>
+</td>
+</tr>
+<?php
+}
+?>
 
 <!-- MODAL TAMBAH ANGGOTA -->
-<div class="modal fade" id="modalAnggota" tabindex="-1" aria-labelledby="judulModal" aria-hidden="true">
+<div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDatalabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-       <form id="formAnggota" novalidate>
+       <form action="tambah_anggota.php" method="POST">
       <div class="modal-header">
-        <h2 class="modal-title h5" id="judulModal">Tambah Anggota</h2>
+        <h2 class="modal-title h5" id="tambahDataLabel">Tambah Anggota</h2>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
       </div>
       <div class="modal-body">
-        <div class="mb-3">
-          <label for="namaKategori" class="form-label">Nama Anggota</label>
-          <input type="text" class="form-control" id="namaAnggota" placeholder="Masukkan nama anggota">
-        </div>
-         <div class="mb-3">
-          <label for="namaKategori" class="form-label">Jabatan</label>
-          <input type="text" class="form-control" id="jabatanAnggota" placeholder=" Ketua">
-        </div>
-          <div class="mb-3">
-          <label for="namaKategori" class="form-label">Telepone</label>
-          <input type="text" class="form-control" id="teleponAnggota" placeholder="">
-        </div>
         
+        <div class="mb-3">
+          <label for="nim" class="form-label">NIM</label>
+          <input type="text" class="form-control" id="nim" name="nim" placeholder="Masukkan NIM" required>
+        </div>
+        <div class="mb-3">
+          <label for="nama" class="form-label">Nama</label>
+          <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama anggota" required>
+        </div>
+        <div class="mb-3">
+          <label for="jabatan" class="form-label">Jabatan</label>
+          <input type="text" class="form-control" id="jabatanAnggota" name="jabatan" placeholder="Masukkan jabatan mahasiswa" required>
+        </div>
+          
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="submit" class="btn btn-primary">Simpan kategori</button>
+        <button type="submit" class="btn btn-primary">Simpan Anggota</button>
+        </div>
         </form>
       </div>
     </div>
   </div>
 </div>
+</tbody>
+</table>
+</div> 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-
-
-let dataAnggota = [
-    { id: 1, nama: 'Udindun', jabatan: 'Ketua', telepon: '0812345678' },
-    { id: 2, nama: 'Ratna Sarumpat', jabatan: 'Wakil Ketua', telepon: '0812345678' },
-    { id: 3, nama: 'idindun', jabatan: 'Bendahara', telepon: '0812345678' },
-    { id: 4, nama: 'Martunis', jabatan: 'Sekretaris', telepon: '0812345678' }
-];
-
-const $ = id => document.getElementById(id);
-const form = $('formAnggota');
-const modal = new bootstrap.Modal($('modalAnggota'));
-let editId = null;
-
-// Menampilkan data anggota
-function render() {
-    const cari = $('cari').value.toLowerCase();
-
-    const hasil = dataAnggota.filter(a =>
-        (a.nama + a.jabatan + a.telepon).toLowerCase().includes(cari)
-    );
-
-    $('tabelAnggota').innerHTML = hasil.map((a, i) => `
-        <tr>
-            <td>${i + 1}</td>
-            <td class="fw-semibold">${a.nama}</td>
-            <td>${a.jabatan}</td>
-            <td>${a.telepon}</td>
-            <td class="text-end">
-                <button class="btn btn-sm btn-outline-secondary"
-                    onclick="bukaForm(${a.id})">
-                    <i class="bi bi-pencil"></i>
-                </button>
-
-                <button class="btn btn-sm btn-outline-danger"
-                    onclick="hapusAnggota(${a.id})">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </td>
-        </tr>
-    `).join('') || `
-        <tr>
-            <td colspan="5" class="text-center text-muted">
-                Data anggota tidak ditemukan.
-            </td>
-        </tr>
-    `;
-}
-
-// Tambah dan edit anggota
-function bukaForm(id = null) {
-    form.reset();
-    editId = id;
-
-    if (id !== null) {
-        const a = dataAnggota.find(a => a.id === id);
-
-        $('namaAnggota').value = a.nama;
-        $('jabatanAnggota').value = a.jabatan;
-        $('teleponAnggota').value = a.telepon;
-        $('judulModal').textContent = 'Edit Anggota';
-    } else {
-        $('judulModal').textContent = 'Tambah Anggota';
-    }
-
-    modal.show();
-}
-
-// Tombol tambah
-$('btnTambah').addEventListener('click', () => bukaForm());
-
-// Simpan anggota
-form.addEventListener('submit', e => {
-    e.preventDefault();
-
-    const anggota = {
-        id: editId ?? Date.now(),
-        nama: $('namaAnggota').value.trim(),
-        jabatan: $('jabatanAnggota').value.trim(),
-        telepon: $('teleponAnggota').value.trim()
-    };
-
-    if (!anggota.nama || !anggota.jabatan || !anggota.telepon) {
-        alert('Semua data harus diisi!');
-        return;
-    }
-
-    if (editId !== null) {
-        const i = dataAnggota.findIndex(a => a.id === editId);
-        dataAnggota[i] = anggota;
-    } else {
-        dataAnggota.push(anggota);
-    }
-
-    modal.hide();
-    render();
-});
-
-// Hapus anggota
-function hapusAnggota(id) {
-    if (confirm('Apakah kamu yakin ingin menghapus anggota ini?')) {
-        dataAnggota = dataAnggota.filter(a => a.id !== id);
-        render();
-    }
-}
-
-// Pencarian anggota
-$('cari').addEventListener('input', render);
-
-// Tampilkan data awal
-render();
-
-
-</script>
-</body>
-</html>
-
-
-
 </body>
 </html>
